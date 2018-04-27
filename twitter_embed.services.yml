@@ -1,0 +1,4 @@
+services:
+  twitter_embed.widget:
+    class: Drupal\twitter_embed\TwitterWidget
+    arguments: []

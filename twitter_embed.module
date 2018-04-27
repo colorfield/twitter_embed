@@ -1,0 +1,24 @@
+<?php
+
+/**
+ * @file
+ * Contains twitter_embed.module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function twitter_embed_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the twitter_embed module.
+    case 'help.page.twitter_embed':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('Simple embed of widgets mentioned on Twitter Publish, without the need of an API.') . '</p>';
+      return $output;
+
+    default:
+  }
+}

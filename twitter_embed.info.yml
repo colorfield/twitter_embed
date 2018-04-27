@@ -1,0 +1,5 @@
+name: 'Twitter Embed'
+type: module
+description: 'Simple embed of widgets mentioned on Twitter Publish, without the need of an API.'
+core: 8.x
+package: 'Custom'
