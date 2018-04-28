@@ -61,6 +61,7 @@ class TwitterTimelineBlock extends BlockBase implements ContainerFactoryPluginIn
    * {@inheritdoc}
    */
   public function defaultConfiguration() {
+    // @todo get values from $this->twitterWidget->getTimelineAvailableSettings()
     return [
       'display_style' => 'timeline',
       'type' => 'profile',
@@ -206,8 +207,17 @@ class TwitterTimelineBlock extends BlockBase implements ContainerFactoryPluginIn
    * {@inheritdoc}
    */
   public function blockSubmit($form, FormStateInterface $form_state) {
-    foreach ($this->twitterWidget->getTimelineAvailableSettings() as $setting) {
-      $this->configuration[$setting] = $form_state->getValue($setting);
+    foreach ($this->twitterWidget->getTimelineAvailableSettings() as $key => $setting) {
+      // @todo use recursivity to handle nested arrays
+      // @todo could not fit with some values (checkboxes)
+      if (is_array($setting)) {
+        foreach ($setting as $childKey => $childSetting) {
+          $this->configuration[$childKey] = $form_state->getValue([$key, $childKey]);
+        }
+      }
+      else {
+        $this->configuration[$key] = $form_state->getValue($key);
+      }
     }
   }
 

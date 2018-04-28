@@ -14,20 +14,22 @@ class TwitterWidget implements TwitterWidgetInterface {
    */
   public function getTimelineAvailableSettings() {
     return [
-      'username',
-      'display_style',
-      'theme',
-      'chrome',
-      'width',
-      'height',
-      'link_color',
-      'border_color',
-      'tweet_limit',
-      'show_replies',
-      'aria_polite',
-      'language',
-      'type',
-      'type_value',
+      'username' => '',
+      'type' => 'profile',
+      'type_value' => '',
+      'display_style' => 'timeline',
+      'display_options' => [
+        'theme' => 'light',
+        'chrome' => NULL,
+        'width' => 0,
+        'height' => 600,
+        'link_color' => '#2b7bb9',
+        'border_color' => '#000000',
+        'tweet_limit' => 0,
+        'show_replies' => FALSE,
+        'aria_polite' => 'polite',
+        'language' => '',
+      ],
     ];
   }
 
@@ -80,9 +82,9 @@ class TwitterWidget implements TwitterWidgetInterface {
   public function getWidget(array $settings) {
     $build['twitter_widget'] = [
       '#type' => 'link',
-      '#title' => $this->createLabelFromConfiguration($settings),
-      '#url' => $this->createUrlFromConfiguration($settings),
-      '#attributes' => $this->createAttributesFromConfiguration($settings),
+      '#title' => $this->createLabel($settings),
+      '#url' => $this->createUrl($settings),
+      '#attributes' => $this->createAttributes($settings),
       '#attached' => [
         'library' => ['twitter_embed/twitter_widgets'],
       ],
@@ -99,7 +101,7 @@ class TwitterWidget implements TwitterWidgetInterface {
    * @return \Drupal\Core\Url
    *   The Twitter Url.
    */
-  private function createUrlFromConfiguration(array $settings) {
+  private function createUrl(array $settings) {
     $uri = 'https://twitter.com/';
     // @todo complete configuration
     switch ($settings['type']) {
@@ -131,7 +133,7 @@ class TwitterWidget implements TwitterWidgetInterface {
    * @return string
    *   Label.
    */
-  private function createLabelFromConfiguration(array $settings) {
+  private function createLabel(array $settings) {
     // @todo handle several cases from the configuration
     return t('Tweets by @@username', ['@username' => $settings['username']]);
   }
@@ -145,7 +147,7 @@ class TwitterWidget implements TwitterWidgetInterface {
    * @return array
    *   List of attributes.
    */
-  private function createAttributesFromConfiguration(array $settings) {
+  private function createAttributes(array $settings) {
     $result = [];
     $result['class'] = ['twitter-' . $settings['display_style']];
 
