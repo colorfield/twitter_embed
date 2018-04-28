@@ -16,7 +16,10 @@ function twitter_embed_help($route_name, RouteMatchInterface $route_match) {
     case 'help.page.twitter_embed':
       $output = '';
       $output .= '<h3>' . t('About') . '</h3>';
-      $output .= '<p>' . t('Simple embed of widgets mentioned on Twitter Publish, without the need of an API.') . '</p>';
+      // @todo complete help with Twitter references
+      // - https://publish.twitter.com/
+      // - https://dev.twitter.com/web/overview
+      $output .= '<p>' . t('Simple embed of Twitter widgets, without OAuth.') . '</p>';
       return $output;
 
     default:

@@ -1,5 +1,7 @@
 name: 'Twitter Embed'
 type: module
-description: 'Simple embed of widgets mentioned on Twitter Publish, without the need of an API.'
+description: 'Simple embed of Twitter widgets, without OAuth.'
 core: 8.x
 package: 'Custom'
+dependencies:
+  - field

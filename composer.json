@@ -1,7 +1,7 @@
 {
   "name": "drupal/twitter_embed",
   "type": "drupal-module",
-  "description": "Simple embed of widgets mentioned on Twitter Publish, without the need of an API.",
+  "description": "Simple embed of Twitter widgets, without OAuth.",
   "keywords": ["Drupal"],
   "license": "GPL-2.0+",
   "homepage": "https://www.drupal.org/project/twitter_embed",
