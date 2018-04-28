@@ -18,7 +18,7 @@ use Drupal\twitter_embed\TwitterWidgetInterface;
  *   id = "twitter_embed_field",
  *   label = @Translation("Twitter embed"),
  *   description = @Translation("Twitter embed of timeline and button."),
- *   default_widget = "twitter_timeline_widget",
+ *   default_widget = "twitter_embed_widget",
  *   default_formatter = "twitter_timeline_formatter"
  * )
  */

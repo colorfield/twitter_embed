@@ -40,6 +40,36 @@ interface TwitterWidgetInterface {
   public function getTimelineSettingsForm(array $configuration);
 
   /**
+   * Get all available settings for a button.
+   *
+   * @return array
+   *   List of settings.
+   */
+  public function getButtonAvailableSettings();
+
+  /**
+   * Get default settings for a button.
+   *
+   * @return array
+   *   List of settings.
+   */
+  public static function getButtonDefaultSettings();
+
+  /**
+   * Get the settings form for a button.
+   *
+   * It allows the sharing of the configuration among.
+   * Block configuration and FieldFormatter configuration.
+   *
+   * @param array $configuration
+   *   List of selected configuration.
+   *
+   * @return array
+   *   The settings form.
+   */
+  public function getButtonSettingsForm(array $configuration);
+
+  /**
    * Get all available languages.
    *
    * @return array

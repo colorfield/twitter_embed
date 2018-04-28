@@ -11,19 +11,19 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\twitter_embed\TwitterWidget;
 
 /**
- * Plugin implementation of the 'twitter_timeline_formatter' formatter.
+ * Plugin implementation of the 'twitter_button_formatter' formatter.
  *
  * @todo refactor using a TwitterFormatterBase
  *
  * @FieldFormatter(
- *   id = "twitter_timeline_formatter",
- *   label = @Translation("Twitter timeline"),
+ *   id = "twitter_button_formatter",
+ *   label = @Translation("Twitter button"),
  *   field_types = {
  *     "twitter_embed_field"
  *   }
  * )
  */
-class TwitterTimelineFormatter extends FormatterBase {
+class TwitterButtonFormatter extends FormatterBase {
 
   /**
    * Drupal\twitter_embed\TwitterWidgetInterface definition.
@@ -33,7 +33,7 @@ class TwitterTimelineFormatter extends FormatterBase {
   protected $twitterWidget;
 
   /**
-   * Constructs a TwitterTimelineFormatter.
+   * Constructs a TwitterButtonFormatter.
    */
   public function __construct($plugin_id, $plugin_definition, FieldDefinitionInterface $field_definition, array $settings, $label, $view_mode, array $third_party_settings) {
     // @todo dependency injection
@@ -45,7 +45,7 @@ class TwitterTimelineFormatter extends FormatterBase {
    * {@inheritdoc}
    */
   public static function defaultSettings() {
-    return TwitterWidget::getTimelineDefaultSettings()
+    return TwitterWidget::getButtonDefaultSettings()
     + parent::defaultSettings();
   }
 
@@ -53,7 +53,7 @@ class TwitterTimelineFormatter extends FormatterBase {
    * {@inheritdoc}
    */
   public function settingsForm(array $form, FormStateInterface $form_state) {
-    return $this->twitterWidget->getTimelineSettingsForm($this->getSettings())
+    return $this->twitterWidget->getButtonSettingsForm($this->getSettings())
     + parent::settingsForm($form, $form_state);
   }
 
@@ -62,9 +62,6 @@ class TwitterTimelineFormatter extends FormatterBase {
    */
   public function settingsSummary() {
     $summary = [];
-    $summary[] = $this->t('Type: @type', [
-      '@type' => $this->getSetting('type'),
-    ]);
     $summary[] = $this->t('Display style: @display_style', [
       '@display_style' => $this->getSetting('display_style'),
     ]);

@@ -79,6 +79,8 @@ class TwitterWidget implements TwitterWidgetInterface {
       // @todo set the label depending on the selected type
       '#title' => t('Type value'),
       '#default_value' => $configuration['type_value'],
+      // @todo set state visible depending on the selected type
+      '#description' => t("Applies to collection (collection id e.g. '539487832448843776') or list (list name e.g. 'national-parks')."),
       '#maxlength' => 128,
       '#size' => 64,
     ];
@@ -104,6 +106,17 @@ class TwitterWidget implements TwitterWidgetInterface {
       '#default_value' => $configuration['theme'],
       '#required' => TRUE,
     ];
+    $form['display_options']['link_color'] = [
+      '#type' => 'color',
+      '#title' => t('Link color'),
+      '#default_value' => $configuration['link_color'],
+    ];
+    $form['display_options']['border_color'] = [
+      '#type' => 'color',
+      '#title' => t('Border color'),
+      '#default_value' => $configuration['border_color'],
+      // @todo depends on the theme
+    ];
     $form['display_options']['chrome'] = [
       '#type' => 'checkboxes',
       '#title' => t('Chrome'),
@@ -119,6 +132,7 @@ class TwitterWidget implements TwitterWidgetInterface {
     $form['display_options']['width'] = [
       '#type' => 'number',
       '#title' => t('Width'),
+      '#description' => t('Leave 0 for auto width.'),
       '#default_value' => $configuration['width'],
       '#field_suffix' => 'px',
     ];
@@ -127,17 +141,6 @@ class TwitterWidget implements TwitterWidgetInterface {
       '#title' => t('Height'),
       '#default_value' => $configuration['height'],
       '#field_suffix' => 'px',
-    ];
-    $form['display_options']['link_color'] = [
-      '#type' => 'color',
-      '#title' => t('Link color'),
-      '#default_value' => $configuration['link_color'],
-    ];
-    $form['display_options']['border_color'] = [
-      '#type' => 'color',
-      '#title' => t('Border color'),
-      '#default_value' => $configuration['border_color'],
-      // @todo depends on the theme
     ];
     $form['display_options']['tweet_limit'] = [
       '#type' => 'number',
@@ -162,6 +165,88 @@ class TwitterWidget implements TwitterWidgetInterface {
         'rude' => t('Rude'),
       ],
       '#default_value' => $configuration['aria_polite'],
+    ];
+    $form['display_options']['language'] = [
+      '#type' => 'select',
+      '#title' => t('Language'),
+      '#description' => t('What language would you like to display this in?.'),
+      '#options' => $this->getAvailableLanguages(),
+      '#default_value' => $configuration['language'],
+    ];
+    return $form;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getButtonAvailableSettings() {
+    return [
+      'username' => '',
+      'display_style' => 'follow-button',
+      'display_options' => [
+        'hide_username' => FALSE,
+        'hide_followers_count' => FALSE,
+        'size' => NULL,
+        'theme' => 'light',
+        'link_color' => '#2b7bb9',
+        'border_color' => '#000000',
+        'width' => 0,
+        'height' => 600,
+        'language' => '',
+      ],
+    ];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function getButtonDefaultSettings() {
+    // @todo flatten from getButtonAvailableSettings()
+    return [
+      'username' => '',
+      'display_style' => 'follow-button',
+      'hide_username' => FALSE,
+      'hide_followers_count' => FALSE,
+      'size' => NULL,
+      'theme' => 'light',
+      'link_color' => '#2b7bb9',
+      'border_color' => '#000000',
+      'width' => 0,
+      'height' => 600,
+      'language' => '',
+    ];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getButtonSettingsForm(array $configuration) {
+    $form = [];
+    $form['display_style'] = [
+      '#type' => 'radios',
+      '#title' => t('Display style'),
+      '#options' => [
+        'follow-button' => t('Follow Button'),
+        'mention-button' => t('Mention Button'),
+      ],
+      '#default_value' => $configuration['display_style'],
+      '#required' => TRUE,
+    ];
+    // @todo add display options
+    $form['display_options']['hide_username'] = [
+      '#type' => 'checkbox',
+      '#title' => t('Hide username'),
+      '#default_value' => $configuration['hide_username'],
+    ];
+    $form['display_options']['hide_followers_count'] = [
+      '#type' => 'checkbox',
+      '#title' => t('Hide followers count'),
+      '#default_value' => $configuration['hide_followers_count'],
+    ];
+    $form['display_options']['size'] = [
+      '#type' => 'checkbox',
+      '#title' => t('Large button'),
+      '#default_value' => $configuration['size'],
     ];
     $form['display_options']['language'] = [
       '#type' => 'select',
@@ -242,23 +327,20 @@ class TwitterWidget implements TwitterWidgetInterface {
    *   The Twitter Url.
    */
   private function createUrl(array $configuration) {
-    $uri = 'https://twitter.com/';
+    $uri = 'https://twitter.com/' . $configuration['username'];
+    // @todo refactor 'display_style' used for Button instead of 'type'
     // @todo complete configuration
     switch ($configuration['type']) {
-      case 'profile':
-        $uri .= $configuration['username'];
-        break;
-
       case 'list':
-        $uri .= $configuration['username'] . '/lists/' . $configuration['type_value'];
+        $uri .= '/lists/' . $configuration['type_value'];
         break;
 
       case 'collection':
-        $uri .= $configuration['username'] . '/timelines/' . $configuration['type_value'];
+        $uri .= '/timelines/' . $configuration['type_value'];
         break;
 
       case 'likes':
-        $uri .= $configuration['username'] . '/likes';
+        $uri .= '/likes';
         break;
     }
     return Url::fromUri($uri);
@@ -289,9 +371,15 @@ class TwitterWidget implements TwitterWidgetInterface {
    */
   private function createAttributes(array $configuration) {
     $result = [];
+    // Common data -ttributes.
+    // @todo review common data-attributes
     $result['class'] = ['twitter-' . $configuration['display_style']];
+    if (!empty($configuration['language'])) {
+      $result['lang'] = $configuration['language'];
+    }
 
     // @todo complete data-attribute list and check conditions depending on the type
+    // Timeline specific data-attributes
     if (!empty($configuration['theme'])) {
       $result['data-theme'] = $configuration['theme'];
     }
@@ -319,9 +407,18 @@ class TwitterWidget implements TwitterWidgetInterface {
     if (!empty($configuration['aria_polite'])) {
       $result['aria-polite'] = $configuration['aria_polite'];
     }
-    if (!empty($configuration['language'])) {
-      $result['lang'] = $configuration['language'];
+
+    // Button specific data-attributes.
+    if ($configuration['hide_username']) {
+      $result['data-show-screen-name'] = 'false';
     }
+    if ($configuration['hide_followers_count']) {
+      $result['data-show-count'] = 'false';
+    }
+    if (!empty($configuration['size'])) {
+      $result['data-size'] = 'large';
+    }
+
     return $result;
   }
 

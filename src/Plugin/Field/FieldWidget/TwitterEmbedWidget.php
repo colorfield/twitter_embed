@@ -11,14 +11,14 @@ use Drupal\twitter_embed\TwitterWidgetInterface;
  * Plugin implementation of the 'twitter_timeline_widget' widget.
  *
  * @FieldWidget(
- *   id = "twitter_timeline_widget",
- *   label = @Translation("Twitter timeline"),
+ *   id = "twitter_embed_widget",
+ *   label = @Translation("Twitter embed"),
  *   field_types = {
  *     "twitter_embed_field"
  *   }
  * )
  */
-class TwitterTimelineWidget extends WidgetBase {
+class TwitterEmbedWidget extends WidgetBase {
 
   /**
    * {@inheritdoc}
