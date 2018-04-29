@@ -9,9 +9,6 @@ interface TwitterWidgetInterface {
 
   const USERNAME_MAX_LENGTH = 50;
 
-  const WIDGET_TIMELINE = 0;
-  const WIDGET_BUTTON = 1;
-
   /**
    * Get all available settings for a widget.
    *
