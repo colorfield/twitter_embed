@@ -119,7 +119,7 @@ class TwitterWidget implements TwitterWidgetInterface {
     $form['display_options']['theme'] = [
       '#type' => 'radios',
       '#title' => t('Theme'),
-      '#description' => t('Display light text on a dark background'),
+      '#description' => t('Text and background colors.'),
       '#options' => ['light' => t('Light'), 'dark' => t('Dark')],
       '#default_value' => $configuration['theme'],
       '#required' => TRUE,
@@ -451,9 +451,22 @@ class TwitterWidget implements TwitterWidgetInterface {
       $configuration['type_value'] = '';
     }
     // The grid display_style is available for collection type only.
-    if ($configuration['type'] !== 'collection') {
+    if ($configuration['type'] !== 'collection' && !$this->isButton($configuration)) {
       $configuration['display_style'] = 'timeline';
     }
+  }
+
+  /**
+   * Checks if the widget is a button.
+   *
+   * @param array $configuration
+   *   List of selected configuration.
+   *
+   * @return bool
+   *   Is a button widget.
+   */
+  private function isButton(array $configuration) {
+    return in_array($configuration['display_style'], ['follow-button', 'mention-button']);
   }
 
 }
