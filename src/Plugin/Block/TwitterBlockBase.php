@@ -75,7 +75,11 @@ abstract class TwitterBlockBase extends BlockBase implements ContainerFactoryPlu
       '#maxlength' => TwitterWidgetInterface::USERNAME_MAX_LENGTH,
       '#size' => TwitterWidgetInterface::USERNAME_MAX_LENGTH,
     ];
-    return $form + $this->twitterWidget->getSettingsForm($this->configuration);
+    $settingsForm = $this->twitterWidget->getSettingsForm($this->configuration);
+    // Append javascript states.
+    $selector = 'settings';
+    $settingsFormWithStates = $this->twitterWidget->setSettingsFormStates($settingsForm, $selector);
+    return $form + $settingsFormWithStates;
   }
 
   /**

@@ -24,7 +24,11 @@ abstract class TwitterFormatterBase extends FormatterBase {
    * {@inheritdoc}
    */
   public function settingsForm(array $form, FormStateInterface $form_state) {
-    return $this->twitterWidget->getSettingsForm($this->getSettings())
+    $settingsForm = $this->twitterWidget->getSettingsForm($this->getSettings());
+    $selector = 'fields[' . $this->fieldDefinition->getName() . '][settings_edit_form][settings]';
+    // Append javascript states.
+    $settingsFormWithStates = $this->twitterWidget->setSettingsFormStates($settingsForm, $selector);
+    return $settingsFormWithStates
     + parent::settingsForm($form, $form_state);
   }
 

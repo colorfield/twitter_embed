@@ -70,4 +70,20 @@ interface TwitterWidgetInterface {
    */
   public function setDependentConfiguration(array &$configuration);
 
+  /**
+   * Set the settings form #states based the context selector.
+   *
+   * The javascript selector changes, depending on the FieldFormatter
+   * or Block implementation.
+   *
+   * @param array $form
+   *   The original Form array.
+   * @param string $selector
+   *   The javascript selector.
+   *
+   * @return array
+   *   The form array with states for form elements.
+   */
+  public function setSettingsFormStates(array $form, $selector);
+
 }

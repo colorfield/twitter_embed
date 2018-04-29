@@ -59,9 +59,9 @@ class TwitterTimelineWidget extends TwitterWidget implements TwitterWidgetInterf
    */
   public function getSettingsForm(array $configuration) {
     $form = [];
-    // @todo use states for options depending on selected type
-    // @todo empty type dependent values on form submit
-    // @todo set display style back to list if not collection
+    // Due to the difference of the selectors,
+    // #states are set on the FieldFormatter or Block implementation.
+    // @todo add states for options depending on selected type
     $form['type'] = [
       '#type' => 'radios',
       '#title' => t('Type'),
@@ -82,18 +82,6 @@ class TwitterTimelineWidget extends TwitterWidget implements TwitterWidgetInterf
       '#description' => t("Applies to collection (collection id e.g. '539487832448843776') or list (list name e.g. 'national-parks')."),
       '#maxlength' => 128,
       '#size' => 64,
-      '#states' => [
-        'visible' => [
-          ['input[name="settings[type]"]' => ['value' => 'list']],
-          'or',
-          ['input[name="settings[type]"]' => ['value' => 'collection']],
-        ],
-        'required' => [
-          ['input[name="settings[type]"]' => ['value' => 'list']],
-          'or',
-          ['input[name="settings[type]"]' => ['value' => 'collection']],
-        ],
-      ],
     ];
     $form['display_style'] = [
       '#type' => 'radios',
@@ -102,11 +90,6 @@ class TwitterTimelineWidget extends TwitterWidget implements TwitterWidgetInterf
       '#options' => ['timeline' => t('Timeline (list)'), 'grid' => t('Grid')],
       '#default_value' => $configuration['display_style'],
       '#required' => TRUE,
-      '#states' => [
-        'visible' => [
-          ['input[name="settings[type]"]' => ['value' => 'collection']],
-        ],
-      ],
     ];
 
     $form['display_options'] = [

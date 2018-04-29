@@ -201,4 +201,30 @@ abstract class TwitterWidget implements TwitterWidgetInterface {
     return in_array($configuration['display_style'], ['follow-button', 'mention-button']);
   }
 
+  /**
+   * {@inheritdoc}
+   */
+  public function setSettingsFormStates(array $form, $selector) {
+    $form['type_value']['#states'] = [
+      'visible' => [
+        // Implicit or.
+        ['input[name="' . $selector . '[type]"]' => ['value' => 'list']],
+        // 'or',.
+        ['input[name="' . $selector . '[type]"]' => ['value' => 'collection']],
+      ],
+      'required' => [
+        // Implicit or.
+        ['input[name="' . $selector . '[type]"]' => ['value' => 'list']],
+        // 'or',.
+        ['input[name="' . $selector . '[type]"]' => ['value' => 'collection']],
+      ],
+    ];
+    $form['display_style']['#states'] = [
+      'visible' => [
+        ['input[name="' . $selector . '[type]"]' => ['value' => 'collection']],
+      ],
+    ];
+    return $form;
+  }
+
 }
