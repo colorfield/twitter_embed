@@ -100,6 +100,7 @@ class TwitterTimelineBlock extends BlockBase implements ContainerFactoryPluginIn
         $this->configuration[$key] = $form_state->getValue($key);
       }
     }
+    $this->twitterWidget->setDependentConfiguration($this->configuration);
   }
 
   /**

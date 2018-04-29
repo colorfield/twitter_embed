@@ -76,6 +76,7 @@ class TwitterEmbedItem extends FieldItemBase {
    * {@inheritdoc}
    */
   public static function generateSampleValue(FieldDefinitionInterface $field_definition) {
+    // @todo set a list of random accounts
     $random = new Random();
     $values['value'] = $random->word(mt_rand(1, TwitterWidgetInterface::USERNAME_MAX_LENGTH));
     return $values;

@@ -29,7 +29,7 @@ class TwitterButtonBlock extends BlockBase implements ContainerFactoryPluginInte
   protected $twitterWidget;
 
   /**
-   * Constructs a new TwitterTimelineBlock object.
+   * Constructs a new TwitterButtonBlock object.
    *
    * @param array $configuration
    *   A configuration array containing information about the plugin instance.
@@ -100,6 +100,7 @@ class TwitterButtonBlock extends BlockBase implements ContainerFactoryPluginInte
         $this->configuration[$key] = $form_state->getValue($key);
       }
     }
+    $this->twitterWidget->setDependentConfiguration($this->configuration);
   }
 
   /**

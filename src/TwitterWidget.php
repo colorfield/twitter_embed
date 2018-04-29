@@ -61,6 +61,9 @@ class TwitterWidget implements TwitterWidgetInterface {
    */
   public function getTimelineSettingsForm(array $configuration) {
     $form = [];
+    // @todo use states for options depending on selected type
+    // @todo empty type dependent values on form submit
+    // @todo set display style back to list if not collection
     $form['type'] = [
       '#type' => 'radios',
       '#title' => t('Type'),
@@ -73,24 +76,39 @@ class TwitterWidget implements TwitterWidgetInterface {
       '#default_value' => $configuration['type'],
       '#required' => TRUE,
     ];
-    // @todo use states depending on selected type
     $form['type_value'] = [
       '#type' => 'textfield',
       // @todo set the label depending on the selected type
       '#title' => t('Type value'),
       '#default_value' => $configuration['type_value'],
-      // @todo set state visible depending on the selected type
       '#description' => t("Applies to collection (collection id e.g. '539487832448843776') or list (list name e.g. 'national-parks')."),
       '#maxlength' => 128,
       '#size' => 64,
+      '#states' => [
+        'visible' => [
+          ['input[name="settings[type]"]' => ['value' => 'list']],
+          'or',
+          ['input[name="settings[type]"]' => ['value' => 'collection']],
+        ],
+        'required' => [
+          ['input[name="settings[type]"]' => ['value' => 'list']],
+          'or',
+          ['input[name="settings[type]"]' => ['value' => 'collection']],
+        ],
+      ],
     ];
-    // @todo styles are depending on type, use the service for that
     $form['display_style'] = [
       '#type' => 'radios',
       '#title' => t('Display style'),
+      '#description' => t('Grid is available for collection only.'),
       '#options' => ['timeline' => t('Timeline (list)'), 'grid' => t('Grid')],
       '#default_value' => $configuration['display_style'],
       '#required' => TRUE,
+      '#states' => [
+        'visible' => [
+          ['input[name="settings[type]"]' => ['value' => 'collection']],
+        ],
+      ],
     ];
 
     $form['display_options'] = [
@@ -222,6 +240,7 @@ class TwitterWidget implements TwitterWidgetInterface {
    */
   public function getButtonSettingsForm(array $configuration) {
     $form = [];
+    // @todo handle mention-button options
     $form['display_style'] = [
       '#type' => 'radios',
       '#title' => t('Display style'),
@@ -420,6 +439,21 @@ class TwitterWidget implements TwitterWidgetInterface {
     }
 
     return $result;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function setDependentConfiguration(array &$configuration) {
+    // @todo these rules should be used in form validation
+    // Empty the type_value when unnecessary.
+    if (!in_array($configuration['type'], ['list', 'collection'])) {
+      $configuration['type_value'] = '';
+    }
+    // The grid display_style is available for collection type only.
+    if ($configuration['type'] !== 'collection') {
+      $configuration['display_style'] = 'timeline';
+    }
   }
 
 }

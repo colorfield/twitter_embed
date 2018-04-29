@@ -88,4 +88,16 @@ interface TwitterWidgetInterface {
    */
   public function getWidget(array $configuration);
 
+  /**
+   * Set the configuration state based on the chosen options.
+   *
+   * Some options are dependent to others, resets the options that
+   * does not need values or set the default configuration to
+   * avoid a configuration state that does not comply with the Twitter widgets.
+   *
+   * @param array $configuration
+   *   List of selected configuration.
+   */
+  public function setDependentConfiguration(array &$configuration);
+
 }
