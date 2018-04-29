@@ -5,6 +5,7 @@ namespace Drupal\twitter_embed\Plugin\Block;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\twitter_embed\TwitterTimelineWidget;
 use Drupal\twitter_embed\TwitterWidget;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\twitter_embed\TwitterWidgetInterface;
@@ -56,7 +57,7 @@ class TwitterTimelineBlock extends BlockBase implements ContainerFactoryPluginIn
       $configuration,
       $plugin_id,
       $plugin_definition,
-      $container->get('twitter_embed.widget')
+      $container->get('twitter_embed.timeline_widget')
     );
   }
 
@@ -64,7 +65,7 @@ class TwitterTimelineBlock extends BlockBase implements ContainerFactoryPluginIn
    * {@inheritdoc}
    */
   public function defaultConfiguration() {
-    return TwitterWidget::getTimelineDefaultSettings()
+    return TwitterTimelineWidget::getDefaultSettings()
     + parent::defaultConfiguration();
   }
 
@@ -81,14 +82,14 @@ class TwitterTimelineBlock extends BlockBase implements ContainerFactoryPluginIn
       '#maxlength' => TwitterWidgetInterface::USERNAME_MAX_LENGTH,
       '#size' => TwitterWidgetInterface::USERNAME_MAX_LENGTH,
     ];
-    return $form + $this->twitterWidget->getTimelineSettingsForm($this->configuration);
+    return $form + $this->twitterWidget->getSettingsForm($this->configuration);
   }
 
   /**
    * {@inheritdoc}
    */
   public function blockSubmit($form, FormStateInterface $form_state) {
-    foreach ($this->twitterWidget->getTimelineAvailableSettings() as $key => $setting) {
+    foreach ($this->twitterWidget->getAvailableSettings() as $key => $setting) {
       // @todo use recursivity to handle nested arrays
       // @todo could not fit with some values (checkboxes)
       if (is_array($setting)) {

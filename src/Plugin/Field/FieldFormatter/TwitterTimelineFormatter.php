@@ -8,6 +8,7 @@ use Drupal\Core\Field\FieldItemInterface;
 use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Field\FormatterBase;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\twitter_embed\TwitterTimelineWidget;
 use Drupal\twitter_embed\TwitterWidget;
 
 /**
@@ -37,7 +38,7 @@ class TwitterTimelineFormatter extends FormatterBase {
    */
   public function __construct($plugin_id, $plugin_definition, FieldDefinitionInterface $field_definition, array $settings, $label, $view_mode, array $third_party_settings) {
     // @todo dependency injection
-    $this->twitterWidget = \Drupal::service('twitter_embed.widget');
+    $this->twitterWidget = \Drupal::service('twitter_embed.timeline_widget');
     parent::__construct($plugin_id, $plugin_definition, $field_definition, $settings, $label, $view_mode, $third_party_settings);
   }
 
@@ -45,7 +46,7 @@ class TwitterTimelineFormatter extends FormatterBase {
    * {@inheritdoc}
    */
   public static function defaultSettings() {
-    return TwitterWidget::getTimelineDefaultSettings()
+    return TwitterTimelineWidget::getDefaultSettings()
     + parent::defaultSettings();
   }
 
@@ -53,7 +54,7 @@ class TwitterTimelineFormatter extends FormatterBase {
    * {@inheritdoc}
    */
   public function settingsForm(array $form, FormStateInterface $form_state) {
-    return $this->twitterWidget->getTimelineSettingsForm($this->getSettings())
+    return $this->twitterWidget->getSettingsForm($this->getSettings())
     + parent::settingsForm($form, $form_state);
   }
 

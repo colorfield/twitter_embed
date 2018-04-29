@@ -8,7 +8,7 @@ use Drupal\Core\Field\FieldItemInterface;
 use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Field\FormatterBase;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\twitter_embed\TwitterWidget;
+use Drupal\twitter_embed\TwitterButtonWidget;
 
 /**
  * Plugin implementation of the 'twitter_button_formatter' formatter.
@@ -37,7 +37,7 @@ class TwitterButtonFormatter extends FormatterBase {
    */
   public function __construct($plugin_id, $plugin_definition, FieldDefinitionInterface $field_definition, array $settings, $label, $view_mode, array $third_party_settings) {
     // @todo dependency injection
-    $this->twitterWidget = \Drupal::service('twitter_embed.widget');
+    $this->twitterWidget = \Drupal::service('twitter_embed.button_widget');
     parent::__construct($plugin_id, $plugin_definition, $field_definition, $settings, $label, $view_mode, $third_party_settings);
   }
 
@@ -45,7 +45,7 @@ class TwitterButtonFormatter extends FormatterBase {
    * {@inheritdoc}
    */
   public static function defaultSettings() {
-    return TwitterWidget::getButtonDefaultSettings()
+    return TwitterButtonWidget::getDefaultSettings()
     + parent::defaultSettings();
   }
 
@@ -53,7 +53,7 @@ class TwitterButtonFormatter extends FormatterBase {
    * {@inheritdoc}
    */
   public function settingsForm(array $form, FormStateInterface $form_state) {
-    return $this->twitterWidget->getButtonSettingsForm($this->getSettings())
+    return $this->twitterWidget->getSettingsForm($this->getSettings())
     + parent::settingsForm($form, $form_state);
   }
 

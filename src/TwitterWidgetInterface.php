@@ -9,24 +9,27 @@ interface TwitterWidgetInterface {
 
   const USERNAME_MAX_LENGTH = 50;
 
+  const WIDGET_TIMELINE = 0;
+  const WIDGET_BUTTON = 1;
+
   /**
-   * Get all available settings for a timeline.
+   * Get all available settings for a widget.
    *
    * @return array
    *   List of settings.
    */
-  public function getTimelineAvailableSettings();
+  public function getAvailableSettings();
 
   /**
-   * Get default settings for a timeline.
+   * Get default settings for a widget.
    *
    * @return array
    *   List of settings.
    */
-  public static function getTimelineDefaultSettings();
+  public static function getDefaultSettings();
 
   /**
-   * Get the settings form for a timeline.
+   * Get the settings form for a widget.
    *
    * It allows the sharing of the configuration among.
    * Block configuration and FieldFormatter configuration.
@@ -37,37 +40,7 @@ interface TwitterWidgetInterface {
    * @return array
    *   The settings form.
    */
-  public function getTimelineSettingsForm(array $configuration);
-
-  /**
-   * Get all available settings for a button.
-   *
-   * @return array
-   *   List of settings.
-   */
-  public function getButtonAvailableSettings();
-
-  /**
-   * Get default settings for a button.
-   *
-   * @return array
-   *   List of settings.
-   */
-  public static function getButtonDefaultSettings();
-
-  /**
-   * Get the settings form for a button.
-   *
-   * It allows the sharing of the configuration among.
-   * Block configuration and FieldFormatter configuration.
-   *
-   * @param array $configuration
-   *   List of selected configuration.
-   *
-   * @return array
-   *   The settings form.
-   */
-  public function getButtonSettingsForm(array $configuration);
+  public function getSettingsForm(array $configuration);
 
   /**
    * Get all available languages.
