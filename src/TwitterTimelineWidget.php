@@ -175,4 +175,43 @@ class TwitterTimelineWidget extends TwitterWidget implements TwitterWidgetInterf
     return $form;
   }
 
+  /**
+   * {@inheritdoc}
+   */
+  public function setSettingsFormStates(array $form, $selector) {
+    $form['type_value']['#states'] = [
+      'visible' => [
+        // Implicit or.
+        ['input[name="' . $selector . '[type]"]' => ['value' => 'list']],
+        ['input[name="' . $selector . '[type]"]' => ['value' => 'collection']],
+      ],
+      'required' => [
+        // Implicit or.
+        ['input[name="' . $selector . '[type]"]' => ['value' => 'list']],
+        ['input[name="' . $selector . '[type]"]' => ['value' => 'collection']],
+      ],
+    ];
+    $form['display_style']['#states'] = [
+      'visible' => [
+        ['input[name="' . $selector . '[type]"]' => ['value' => 'collection']],
+      ],
+    ];
+    return $form;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function setDependentConfiguration(array &$configuration) {
+    // @todo these rules should be used in form validation.
+    // Empty the type_value when unnecessary.
+    if (!in_array($configuration['type'], ['list', 'collection'])) {
+      $configuration['type_value'] = '';
+    }
+    // The grid display_style is available for collection type only.
+    if ($configuration['type'] !== 'collection') {
+      $configuration['display_style'] = 'timeline';
+    }
+  }
+
 }

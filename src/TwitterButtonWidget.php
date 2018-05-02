@@ -90,4 +90,33 @@ class TwitterButtonWidget extends TwitterWidget implements TwitterWidgetInterfac
     return $form;
   }
 
+  /**
+   * {@inheritdoc}
+   */
+  public function setSettingsFormStates(array $form, $selector) {
+    $form['display_options']['hide_username']['#states'] = [
+      'visible' => [
+        ['input[name="' . $selector . '[display_style]"]' => ['value' => 'follow-button']],
+      ],
+    ];
+    $form['display_options']['hide_followers_count']['#states'] = [
+      'visible' => [
+        ['input[name="' . $selector . '[display_style]"]' => ['value' => 'follow-button']],
+      ],
+    ];
+    return $form;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function setDependentConfiguration(array &$configuration) {
+    // @todo these rules should be used in form validation.
+    // Uncheck the hide_username and hide_followers_count when unnecessary.
+    if (!in_array($configuration['display_style'], ['follow-button'])) {
+      $configuration['hide_username'] = FALSE;
+      $configuration['hide_followers_count'] = FALSE;
+    }
+  }
+
 }
