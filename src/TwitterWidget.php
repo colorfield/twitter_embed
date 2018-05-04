@@ -122,8 +122,8 @@ abstract class TwitterWidget implements TwitterWidgetInterface {
    */
   private function createAttributes(array $configuration) {
     $result = [];
-    // Common data -ttributes.
-    // @todo review common data-attributes
+    // Common data-attributes.
+    // @todo review common data-attributes and polymorphism for differences.
     $result['class'] = ['twitter-' . $configuration['display_style']];
     if (!empty($configuration['language'])) {
       $result['lang'] = $configuration['language'];

@@ -45,6 +45,32 @@ class TwitterButtonWidget extends TwitterWidget implements TwitterWidgetInterfac
       'width' => 0,
       'height' => 600,
       'language' => '',
+      // Settings are shared amongst formatters
+      // so even if their values are not used,
+      // they have to be declared.
+      'type' => 'profile',
+      'type_value' => '',
+      'chrome' => NULL,
+      'tweet_limit' => 0,
+      'show_replies' => FALSE,
+      'aria_polite' => 'polite',
+    ];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getAvailableTypes() {
+    return [];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getAvailableDisplayStyles() {
+    return [
+      'follow-button' => t('Follow Button'),
+      'mention-button' => t('Mention Button'),
     ];
   }
 
@@ -53,18 +79,20 @@ class TwitterButtonWidget extends TwitterWidget implements TwitterWidgetInterfac
    */
   public function getSettingsForm(array $configuration) {
     $form = [];
-    // @todo handle mention-button options
+    // @todo handle mention-button extra options like text.
     $form['display_style'] = [
       '#type' => 'radios',
       '#title' => t('Display style'),
-      '#options' => [
-        'follow-button' => t('Follow Button'),
-        'mention-button' => t('Mention Button'),
-      ],
+      '#options' => $this->getAvailableDisplayStyles(),
       '#default_value' => $configuration['display_style'],
       '#required' => TRUE,
     ];
-    // @todo add display options
+
+    $form['display_options'] = [
+      '#type' => 'details',
+      '#title' => t('Display options'),
+      '#open' => FALSE,
+    ];
     $form['display_options']['hide_username'] = [
       '#type' => 'checkbox',
       '#title' => t('Hide username'),

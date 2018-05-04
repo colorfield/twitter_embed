@@ -40,6 +40,22 @@ interface TwitterWidgetInterface {
   public function getSettingsForm(array $configuration);
 
   /**
+   * Get all available types.
+   *
+   * @return array
+   *   Array of types.
+   */
+  public function getAvailableTypes();
+
+  /**
+   * Get all available display styles.
+   *
+   * @return array
+   *   Array of display styles.
+   */
+  public function getAvailableDisplayStyles();
+
+  /**
    * Get all available languages.
    *
    * @return array

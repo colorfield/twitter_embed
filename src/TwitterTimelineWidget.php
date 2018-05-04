@@ -35,7 +35,7 @@ class TwitterTimelineWidget extends TwitterWidget implements TwitterWidgetInterf
    * {@inheritdoc}
    */
   public static final function getDefaultSettings() {
-    // @todo flatten from getTimelineAvailableSettings()
+    // @todo flatten default values from getTimelineAvailableSettings()
     return [
       'username' => '',
       'type' => 'profile',
@@ -51,6 +51,34 @@ class TwitterTimelineWidget extends TwitterWidget implements TwitterWidgetInterf
       'show_replies' => FALSE,
       'aria_polite' => 'polite',
       'language' => '',
+      // Settings are shared amongst formatters
+      // so even if their values are not used,
+      // they have to be declared.
+      'hide_username' => FALSE,
+      'hide_followers_count' => FALSE,
+      'size' => NULL,
+    ];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getAvailableTypes() {
+    return [
+      'profile' => t('Profile'),
+      'list' => t('List'),
+      'collection' => t('Collection'),
+      'likes' => t('Likes'),
+    ];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getAvailableDisplayStyles() {
+    return [
+      'timeline' => t('Timeline (list)'),
+      'grid' => t('Grid'),
     ];
   }
 
@@ -65,12 +93,7 @@ class TwitterTimelineWidget extends TwitterWidget implements TwitterWidgetInterf
     $form['type'] = [
       '#type' => 'radios',
       '#title' => t('Type'),
-      '#options' => [
-        'profile' => t('Profile'),
-        'list' => t('List'),
-        'collection' => t('Collection'),
-        'likes' => t('Likes'),
-      ],
+      '#options' => $this->getAvailableTypes(),
       '#default_value' => $configuration['type'],
       '#required' => TRUE,
     ];
@@ -87,7 +110,7 @@ class TwitterTimelineWidget extends TwitterWidget implements TwitterWidgetInterf
       '#type' => 'radios',
       '#title' => t('Display style'),
       '#description' => t('Grid is available for collection only.'),
-      '#options' => ['timeline' => t('Timeline (list)'), 'grid' => t('Grid')],
+      '#options' => $this->getAvailableDisplayStyles(),
       '#default_value' => $configuration['display_style'],
       '#required' => TRUE,
     ];

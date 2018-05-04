@@ -25,6 +25,8 @@ abstract class TwitterFormatterBase extends FormatterBase {
    */
   public function settingsForm(array $form, FormStateInterface $form_state) {
     $settingsForm = $this->twitterWidget->getSettingsForm($this->getSettings());
+    // Removing display options until they can correctly be saved.
+    unset($settingsForm['display_options']);
     $selector = 'fields[' . $this->fieldDefinition->getName() . '][settings_edit_form][settings]';
     // Append javascript states.
     $settingsFormWithStates = $this->twitterWidget->setSettingsFormStates($settingsForm, $selector);
@@ -38,7 +40,7 @@ abstract class TwitterFormatterBase extends FormatterBase {
   public function settingsSummary() {
     $summary = [];
     $summary[] = $this->t('Display style: @display_style', [
-      '@display_style' => $this->getSetting('display_style'),
+      '@display_style' => $this->getSettings()['display_style'],
     ]);
     return $summary;
   }
