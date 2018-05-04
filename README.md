@@ -5,26 +5,29 @@ Simple embed of Twitter widgets, without OAuth.
 ## Features
 
 - Expose Twitter widgets to Drupal with Block and FieldFormatter.
-- Covered widgets: Timeline, Button (@todo).
+- Covered widgets: Timeline, Button.
 
 ## Configuration
 
-After enabling the module, you have the following options.
+After enabling the module, you have the following options:
 
 ### Embed as a Block
 
-- Add a **Twitter timeline** or a **Twitter button** block.
+- Add a _Twitter timeline_ or a _Twitter button_ block.
 - Configuration is per block.
 
 ### Embed as a Field
 
-- Add a **Twitter embed** field on any content entity and choose a 
-_Timeline widget_ or a _Button widget_.
-- Configure the display options.
+- Add a _Twitter embed_ field to any content entity.
+- On the 'Manage display' tab, choose between _Twitter timeline_
+or _Twitter button_ format.
+
+The display options (theme, link color, ...) from the blocks
+are currently not available for field formatters.
 
 ## Documentation
 
-The options are described on 
+The widget options are described on 
 [Twitter Publish](https://publish.twitter.com/) 
 and 
 [Twitter Developer Documentation](https://dev.twitter.com/web/overview).
